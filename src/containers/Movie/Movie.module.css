@@ -1,8 +1,16 @@
 .Movie {
   /*border: 1px solid red;*/
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   margin: 20px 0;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  padding: 16px;
+  position: relative;
+}
+
+.Movie:hover {
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
 .MovieInfo {
@@ -15,6 +23,23 @@
   width: 180px;
   height: 268px;
   object-fit: cover;
-
 }
 
+.Movie h3 {
+  font-size: 20px;
+}
+
+.Movie button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.SmallMovie {
+  padding: 12px;
+}
+
+.SmallMovie img {
+  width: 88px !important;
+  height: auto;
+}

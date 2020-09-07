@@ -11,36 +11,47 @@ class MovieController extends Component {
   state = {
     searchedMovies: [],
     nominatedMovies: [],
-    currentInput: ''
+    currentInput: '',
+    searchedLoading: false,
+    nominatedLoading: true,
+    searchError: ''
   }
 
   componentDidMount() {
     axios.get('https://the-shoppies-challenge.firebaseio.com/nominations.json')
       .then(res => {
-        this.setState({
-          nominatedMovies: Object.keys(res.data).map(key => res.data[key])
-        }, () => {
-          console.log(this.state.nominatedMovies)
-        })
+        if (res.data) {
+          this.setState({
+            nominatedMovies: Object.keys(res.data).map(key => res.data[key]),
+          })
+        }
+        this.setState({nominatedLoading: false})
       })
       .catch(err => console.log(err))
   }
 
   handleSearch = (event) => {
     this.setState({
-      currentInput: event.target.value
+      currentInput: event.target.value,
+      searchedLoading: true
     })
     axios.get(`http://www.omdbapi.com/?s=${event.target.value}&type=movie&apikey=d73274da`)
       .then(response => {
         if (response.data.Response !== 'False') {
           this.setState({
-            searchedMovies: response.data.Search.slice(0, 10)
+            searchedMovies: response.data.Search.slice(0, 10),
+            searchedLoading: false,
+            searchError: ''
           })
+          console.log(response.data)
         }
         else {
           this.setState({
-            searchedMovies: []
+            searchedMovies: [],
+            searchedLoading: false,
+            searchError: response.data.Error
           })
+          console.log(response.data)
         }
       })
       .catch(err => {
@@ -109,6 +120,7 @@ class MovieController extends Component {
       return <Movie
               movie={m.movie}
               added
+              small
               key={m.movie.imdbID}
               disabled={false}
               clicked={() => this.removeMovieHandler(m.movie.imdbID)} />
@@ -122,14 +134,28 @@ class MovieController extends Component {
           </form>
 
           <div className={classes.MoviesShow}>
-            <h2>Results for "{this.state.currentInput}"</h2>
-            {currentShowedMovies}
+            {
+              this.state.currentInput ? <h2>Results for "{this.state.currentInput}"</h2>
+              : <h2>Search for movies!</h2>
+            }
+            {
+              this.state.searchError && this.state.searchError !== "Incorrect IMDb ID." ? <p>{this.state.searchError}</p>
+              :
+              <div className={classes.MovieGrid}>
+                {currentShowedMovies}
+              </div>
+            }
           </div>
         </div>
 
         <div className={[classes.NominationsSection, classes.Section].join(' ')}>
-          <h2>Nominations</h2>
-          {currentNominatedMovies}
+          <h2>Nominations ({this.state.nominatedMovies.length}/5)</h2>
+          { this.state.nominatedLoading ? <p>Loading...</p>
+            :
+            <div>
+              {currentNominatedMovies}
+            </div>
+          }
           <div style={{display: this.state.nominatedMovies.length >= 5 ? 'block' : 'none'}}>Congrats!</div>
         </div>
       </div>
