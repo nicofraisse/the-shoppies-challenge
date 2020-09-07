@@ -1,0 +1,22 @@
+.MovieController {
+  margin: 0 auto;
+  max-width: 1280px;
+  display: flex;
+}
+
+.SearchSection {
+  width: 50%;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.NominationsSection {
+  width: 50%;
+  background-color: rgba(255, 255, 255, 0.07);
+
+}
+
+.Section {
+  padding: 32px;
+  min-height: 100vh;
+  padding-top: 200px;
+}

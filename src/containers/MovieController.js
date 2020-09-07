@@ -115,22 +115,24 @@ class MovieController extends Component {
     });
 
     return (
-      <Aux>
-        <form>
-          <input className="form-control" type="text" placeholder="Search..." onChange={this.handleSearch} />
-        </form>
-        <div className={classes.MoviesShow}>
-          <h2>Results for "{this.state.currentInput}"</h2>
-          {currentShowedMovies}
+      <div className={classes.MovieController}>
+        <div className={[classes.SearchSection, classes.Section].join(' ')}>
+          <form>
+            <input className="form-control" type="text" placeholder="Search..." onChange={this.handleSearch} />
+          </form>
+
+          <div className={classes.MoviesShow}>
+            <h2>Results for "{this.state.currentInput}"</h2>
+            {currentShowedMovies}
+          </div>
         </div>
 
-        <div>
+        <div className={[classes.NominationsSection, classes.Section].join(' ')}>
           <h2>Nominations</h2>
           {currentNominatedMovies}
+          <div style={{display: this.state.nominatedMovies.length >= 5 ? 'block' : 'none'}}>Congrats!</div>
         </div>
-
-        <div style={{display: this.state.nominatedMovies.length >= 5 ? 'block' : 'none'}}>Congrats!</div>
-      </Aux>
+      </div>
     )
   }
 }
