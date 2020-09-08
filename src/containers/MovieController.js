@@ -33,7 +33,7 @@ class MovieController extends Component {
       currentInput: event.target.value,
       searchedLoading: true
     })
-    axios.get(`http://www.omdbapi.com/?s=${event.target.value}&type=movie&apikey=d73274da`)
+    axios.get(`https://www.omdbapi.com/?s=${event.target.value}&type=movie&apikey=d73274da`)
       .then(response => {
         if (response.data.Response !== 'False') {
           this.setState({
