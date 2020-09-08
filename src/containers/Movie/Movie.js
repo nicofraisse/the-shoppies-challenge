@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
 import classes from './Movie.module.css';
+import Button from '../../components/Button/Button'
 
-class Movie extends Component {
-  render() {
+const Movie = (props) => {
+  const imgSource = props.movie.Poster === 'N/A' ? 'https://www.edgeintelligence.com/wp-content/uploads/2018/08/placeholder.png' : props.movie.Poster;
     return (
-      <div className={[classes.Movie, this.props.small ? classes.SmallMovie : ''].join(' ')}>
-        <img src={this.props.movie.Poster} alt={this.props.movie.Title + " poster"} />
+      <div className={[classes.Movie, props.small ? classes.SmallMovie : ''].join(' ')}>
+        <img src={imgSource} alt={props.movie.Title + " poster"} />
         <div className={classes.MovieInfo}>
-          <h3>{this.props.movie.Title}</h3>
-          <span>{this.props.movie.Year}</span>
-          <button onClick={this.props.clicked} disabled={this.props.disabled}>
-            {this.props.added ? "Remove" : "Nominate"}
-          </button>
+          <h3>{props.movie.Title}</h3>
+          <span>{props.movie.Year}</span>
+          <Button
+          click={props.clicked}
+          disabled={props.disabled}
+          added={props.added}/>
         </div>
       </div>
     )
-  }
 }
 
 export default Movie;

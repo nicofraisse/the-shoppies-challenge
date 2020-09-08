@@ -5,6 +5,7 @@ import MovieShow from './MovieShow/MovieShow';
 import MovieNominations from './MovieNominations/MovieNominations';
 import Movie from './Movie/Movie'
 import classes from './MovieController.module.css';
+import Banner from '../components/Banner/Banner'
 import axios from 'axios'
 
 class MovieController extends Component {
@@ -14,7 +15,8 @@ class MovieController extends Component {
     currentInput: '',
     searchedLoading: false,
     nominatedLoading: true,
-    searchError: ''
+    searchError: '',
+    bannerShowing: false
   }
 
   componentDidMount() {
@@ -43,7 +45,6 @@ class MovieController extends Component {
             searchedLoading: false,
             searchError: ''
           })
-          console.log(response.data)
         }
         else {
           this.setState({
@@ -51,7 +52,6 @@ class MovieController extends Component {
             searchedLoading: false,
             searchError: response.data.Error
           })
-          console.log(response.data)
         }
       })
       .catch(err => {
@@ -73,6 +73,9 @@ class MovieController extends Component {
       axios.post('https://the-shoppies-challenge.firebaseio.com/nominations.json', timestampedMovie)
         // .then(res => console.log(res))
         .catch(err => console.log(err));
+      if (this.state.nominatedMovies.length >= 5) {
+        this.setState({bannerShowing: true})
+      }
     })
   }
 
@@ -95,6 +98,12 @@ class MovieController extends Component {
           ])
         })
         .catch(err => console.log(err))
+    })
+  }
+
+  bannerClickedHandler = () => {
+    this.setState({
+      bannerShowing: false
     })
   }
 
@@ -129,6 +138,7 @@ class MovieController extends Component {
     return (
       <div className={classes.MovieController}>
         <div className={[classes.SearchSection, classes.Section].join(' ')}>
+          <h1><i class="fas fa-video"></i><span>SHOPPIES CHALLENGE</span></h1>
           <form>
             <input className="form-control" type="text" placeholder="Search..." onChange={this.handleSearch} />
           </form>
@@ -148,7 +158,10 @@ class MovieController extends Component {
           </div>
         </div>
 
+
         <div className={[classes.NominationsSection, classes.Section].join(' ')}>
+          <h1 className="d-none-md"><i class="fas fa-video"></i><span>SHOPPIES CHALLENGE</span></h1>
+
           <h2>Nominations ({this.state.nominatedMovies.length}/5)</h2>
           { this.state.nominatedLoading ? <p>Loading...</p>
             :
@@ -156,7 +169,10 @@ class MovieController extends Component {
               {currentNominatedMovies}
             </div>
           }
-          <div style={{display: this.state.nominatedMovies.length >= 5 ? 'block' : 'none'}}>Congrats!</div>
+          <Banner
+          topMovies={this.state.nominatedMovies}
+          clicked={this.bannerClickedHandler}
+          show={this.state.bannerShowing}/>
         </div>
       </div>
     )

@@ -1,0 +1,52 @@
+.BtnAdd {
+  color: rgba(132, 190, 145, 1.00);
+  border: 2px solid rgba(132, 190, 145, 1.00);
+  font-size: 18px;
+  background: none;
+  border-radius: 20px;
+  font-weight: bold;
+  padding: 0 10px;
+  transition: 0.2s;
+}
+
+.BtnAdd:disabled {
+  color: rgba(132, 150, 145, 0.8);
+  border: 2px solid rgba(132, 150, 145, 0.8);
+}
+
+.BtnAdd:hover {
+  box-shadow: 0 0 8px rgba(132, 190, 145, 0.8);
+}
+
+.BtnAdd:disabled:hover {
+  box-shadow: none;
+}
+
+.BtnRemove {
+  color: rgba(246, 126, 141, 1.00);
+  background-color: rgba(0, 0, 0, 0);
+  font-weight: bold;
+  font-size: 28px;
+  border: none;
+  transition: 0.2s;
+}
+
+.BtnRemove:hover {
+  text-shadow: 0 0 8px rgba(246, 126, 141, 0.8);
+}
+
+@media (max-width: 960px) {
+  .BtnAdd {
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 776px) {
+  .BtnAdd {
+    font-size: 16px;
+  }
+
+  .BtnRemove {
+    font-size: 24px;
+  }
+}

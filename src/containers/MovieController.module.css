@@ -5,37 +5,110 @@
   overflow: hidden;
   height: 100vh;
   width: 100vw;
+
+
 }
 
 .SearchSection {
   background-color: rgba(255, 255, 255, 0.05);
   overflow: scroll;
   width: 75%;
+  position: static;
 }
 
 
 .SearchSection form {
   margin-bottom: 24px;
+  margin-top: -56px !important;
 }
 
 .NominationsSection {
   background-color: rgba(255, 255, 255, 0.07);
   overflow: scroll;
   width: 25%;
+
 }
 
 .NominationsSection h2 {
-  margin-top: 62px;
+  margin-top: 70px;
 }
 
 .Section {
-  padding: 32px;
+  padding: 120px 32px;
   min-height: 100vh;
-  padding-top: 120px
 }
 
 .MovieGrid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 16px;
+}
+
+@media (max-width: 1460px) {
+  .MovieGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 16px;
+  }
+  .SearchSection {
+    width: 70%;
+  }
+  .NominationsSection {
+    width: 30%;
+  }
+}
+
+
+@media (max-width: 960px) {
+  .MovieGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 0;
+  }
+  .SearchSection {
+    width: 60%;
+  }
+  .NominationsSection {
+    width: 40%;
+  }
+
+}
+
+@media (max-width: 776px) {
+  .SearchSection {
+    width: 55%;
+  }
+  .NominationsSection {
+    width: 45%;
+  }
+}
+
+@media (max-width: 620px) {
+  .Section {
+    padding: 100px 12px;
+  }
+}
+
+@media (max-width: 550px) {
+  .MovieController {
+    flex-direction: column-reverse;
+    overflow: scroll;
+    height: auto;
+  }
+  .SearchSection {
+    width: 100%;
+  }
+  .NominationsSection {
+    width: 100%;
+  }
+  .Section {
+    padding: 12px;
+    min-height: auto;
+  }
+  .NominationsSection h2 {
+    margin-top: 40px;
+  }
+  .NominationsSection, .SearchSection {
+    overflow: auto;
+  }
 }

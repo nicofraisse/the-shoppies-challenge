@@ -1,0 +1,61 @@
+.BannerBackdrop {
+  position: absolute;
+  z-index: 100000;
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.5s ease-in;
+}
+
+.Banner {
+  background-color: rgba(170, 220, 240, 0.91);
+  color: black;
+  padding: 32px;
+  width: 600px;
+  box-shadow: 10px 6px 16px rgba(0, 0, 0, 0.6);
+  border-radius: 3px;
+}
+
+.BannerMovie {
+  background: none;
+  padding: 10px;
+  border-radius: 2px;
+  margin: 8px auto;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgb(0, 0, 0, 0.2);
+}
+
+.Banner h3 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.BannerMovie h4 {
+  font-size: 16px;
+  margin-top: 16px;
+}
+
+.BannerMovie div {
+  font-size: 33px;
+  margin-right: 20px;
+  color: rgb(40, 40, 40);
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+
+
+
+
+
+
+
