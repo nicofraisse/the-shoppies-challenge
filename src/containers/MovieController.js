@@ -94,7 +94,7 @@ class MovieController extends Component {
             newNominatedMovies.map((movie) => {
               return (
                 axios.post('https://the-shoppies-challenge.firebaseio.com/nominations.json', movie)
-                  .catch(err => console.log(err));
+                  .catch(err => console.log(err))
               );
             })
           ])
