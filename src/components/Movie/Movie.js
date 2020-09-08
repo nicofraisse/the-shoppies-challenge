@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import classes from './Movie.module.css';
-import Button from '../../components/Button/Button'
+import Button from '../../components/Button/Button';
 
 const Movie = (props) => {
   const imgSource = props.movie.Poster === 'N/A' ? 'https://www.edgeintelligence.com/wp-content/uploads/2018/08/placeholder.png' : props.movie.Poster;
@@ -16,7 +16,7 @@ const Movie = (props) => {
           added={props.added}/>
         </div>
       </div>
-    )
-}
+    );
+};
 
 export default Movie;

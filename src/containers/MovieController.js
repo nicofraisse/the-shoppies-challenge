@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-import Aux from '../hoc/Aux';
-import MovieSearch from './MovieSearch/MovieSearch';
-import MovieShow from './MovieShow/MovieShow';
-import MovieNominations from './MovieNominations/MovieNominations';
-import Movie from './Movie/Movie'
+import Movie from '../components/Movie/Movie';
 import classes from './MovieController.module.css';
-import Banner from '../components/Banner/Banner'
-import axios from 'axios'
+import Banner from '../components/Banner/Banner';
+import axios from 'axios';
 
 class MovieController extends Component {
   state = {
@@ -27,9 +23,9 @@ class MovieController extends Component {
             nominatedMovies: Object.keys(res.data).map(key => res.data[key]),
           })
         }
-        this.setState({nominatedLoading: false})
+        this.setState({nominatedLoading: false});
       })
-      .catch(err => console.log(err))
+      .catch(err => console.log(err));
   }
 
   handleSearch = (event) => {
@@ -44,23 +40,23 @@ class MovieController extends Component {
             searchedMovies: response.data.Search.slice(0, 10),
             searchedLoading: false,
             searchError: ''
-          })
+          });
         }
         else {
           this.setState({
             searchedMovies: [],
             searchedLoading: false,
             searchError: response.data.Error
-          })
+          });
         }
       })
       .catch(err => {
-        console.log(err)
-      })
+        console.log(err);
+      });
   }
 
   addMovieHandler = (movie) => {
-    const prevNominatedMovies = [...this.state.nominatedMovies]
+    const prevNominatedMovies = [...this.state.nominatedMovies];
 
     // For retrieving the saved movies in the same order
     const timestampedMovie = {
@@ -71,17 +67,16 @@ class MovieController extends Component {
       nominatedMovies: prevNominatedMovies.concat(timestampedMovie)
     }, () => {
       axios.post('https://the-shoppies-challenge.firebaseio.com/nominations.json', timestampedMovie)
-        // .then(res => console.log(res))
         .catch(err => console.log(err));
       if (this.state.nominatedMovies.length >= 5) {
-        this.setState({bannerShowing: true})
+        this.setState({bannerShowing: true});
       }
-    })
+    });
   }
 
   removeMovieHandler = (id) => {
-    const prevNominatedMovies = [...this.state.nominatedMovies]
-    const newNominatedMovies = prevNominatedMovies.filter(movie => movie.movie.imdbID != id)
+    const prevNominatedMovies = [...this.state.nominatedMovies];
+    const newNominatedMovies = prevNominatedMovies.filter(movie => movie.movie.imdbID !== id);
     this.setState({
       nominatedMovies: newNominatedMovies
     }, () => {
@@ -91,27 +86,29 @@ class MovieController extends Component {
           // Repost all movies except the deleted one to firebase
           axios.all([
             newNominatedMovies.map((movie) => {
-              axios.post('https://the-shoppies-challenge.firebaseio.com/nominations.json', movie)
+              return (
+                axios.post('https://the-shoppies-challenge.firebaseio.com/nominations.json', movie)
                 // .then(res => console.log(res))
-                .catch(err => console.log(err));
+                  .catch(err => console.log(err))
+              );
             })
           ])
         })
-        .catch(err => console.log(err))
-    })
+        .catch(err => console.log(err));
+    });
   }
 
   bannerClickedHandler = () => {
     this.setState({
       bannerShowing: false
-    })
+    });
   }
 
   render() {
     const isAlreadyNominated = (movie) => {
       let nominated = false;
       for (let m of this.state.nominatedMovies) {
-        if (m.movie.imdbID == movie.imdbID) {
+        if (m.movie.imdbID === movie.imdbID) {
           nominated = true;
         }
       }
@@ -138,7 +135,7 @@ class MovieController extends Component {
     return (
       <div className={classes.MovieController}>
         <div className={[classes.SearchSection, classes.Section].join(' ')}>
-          <h1><i class="fas fa-video"></i><span>SHOPPIES CHALLENGE</span></h1>
+          <h1><i className="fas fa-video"></i><span>SHOPPIES CHALLENGE</span></h1>
           <form>
             <input className="form-control" type="text" placeholder="Search..." onChange={this.handleSearch} />
           </form>
@@ -158,10 +155,8 @@ class MovieController extends Component {
           </div>
         </div>
 
-
         <div className={[classes.NominationsSection, classes.Section].join(' ')}>
-          <h1 className="d-none-md"><i class="fas fa-video"></i><span>SHOPPIES CHALLENGE</span></h1>
-
+          <h1 className="d-none-md"><i className="fas fa-video"></i><span>SHOPPIES CHALLENGE</span></h1>
           <h2>Nominations ({this.state.nominatedMovies.length}/5)</h2>
           { this.state.nominatedLoading ? <p>Loading...</p>
             :
@@ -175,7 +170,7 @@ class MovieController extends Component {
           show={this.state.bannerShowing}/>
         </div>
       </div>
-    )
+    );
   }
 }
 
