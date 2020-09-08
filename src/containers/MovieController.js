@@ -15,12 +15,13 @@ class MovieController extends Component {
     bannerShowing: false
   }
 
+  // Retrieve the nominated movies from firebase when the component has mounted
   componentDidMount() {
     axios.get('https://the-shoppies-challenge.firebaseio.com/nominations.json')
-      .then(res => {
-        if (res.data) {
+      .then(response => {
+        if (response.data) {
           this.setState({
-            nominatedMovies: Object.keys(res.data).map(key => res.data[key]),
+            nominatedMovies: Object.keys(response.data).map(key => response.data[key]),
           })
         }
         this.setState({nominatedLoading: false});
@@ -28,6 +29,8 @@ class MovieController extends Component {
       .catch(err => console.log(err));
   }
 
+  // Search on omdbapi when user types in the form
+  // Update the loading state as well as the error state, for special cases
   handleSearch = (event) => {
     this.setState({
       currentInput: event.target.value,
@@ -63,6 +66,9 @@ class MovieController extends Component {
       movie: movie,
       dateAdded: new Date()
     }
+
+    // Right after changing the state, to take into account the new nominated movie,
+    // post the new movie data to firebase, and show a banner if there are 5 nominated movies.
     this.setState({
       nominatedMovies: prevNominatedMovies.concat(timestampedMovie)
     }, () => {
@@ -88,8 +94,7 @@ class MovieController extends Component {
             newNominatedMovies.map((movie) => {
               return (
                 axios.post('https://the-shoppies-challenge.firebaseio.com/nominations.json', movie)
-                // .then(res => console.log(res))
-                  .catch(err => console.log(err))
+                  .catch(err => console.log(err));
               );
             })
           ])
@@ -98,6 +103,7 @@ class MovieController extends Component {
     });
   }
 
+  // Remove the modal banner when the user clicks anywhere on the screen
   bannerClickedHandler = () => {
     this.setState({
       bannerShowing: false
@@ -105,6 +111,7 @@ class MovieController extends Component {
   }
 
   render() {
+    // Function to check if a movie has already been nominated
     const isAlreadyNominated = (movie) => {
       let nominated = false;
       for (let m of this.state.nominatedMovies) {
@@ -114,6 +121,8 @@ class MovieController extends Component {
       }
       return nominated;
     }
+
+    // Generate an array of Movie components to be shown when user searches
     const currentShowedMovies = this.state.searchedMovies.map((movie) => {
       return <Movie
               movie={movie}
@@ -122,6 +131,7 @@ class MovieController extends Component {
               clicked={() => this.addMovieHandler(movie)} />
     });
 
+    // Genereate an array of nominated Movie components
     const currentNominatedMovies = this.state.nominatedMovies.map((m) => {
       return <Movie
               movie={m.movie}

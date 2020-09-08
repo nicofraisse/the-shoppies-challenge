@@ -2,6 +2,7 @@ import React from 'react';
 import classes from './Banner.module.css';
 
 const Banner = (props) => {
+  // Construct list of movies shown in the banner
   let bannerMovies = '';
   if (props.topMovies) {
     bannerMovies = props.topMovies.map((m, index) => {
@@ -18,8 +19,7 @@ const Banner = (props) => {
     <div
     className={classes.BannerBackdrop}
     onClick={props.clicked}
-    style={{display: props.show ? 'flex' : 'none'}}
-    >
+    style={{display: props.show ? 'flex' : 'none'}}>
       <div className={classes.Banner}>
         <h3>Your Final Nomination 🏅</h3>
         {bannerMovies}
